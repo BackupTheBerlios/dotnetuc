@@ -1,0 +1,137 @@
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.50727</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{4B472C12-767E-4822-A474-5D1EDD7053EA}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>Softwarekueche.NetConfigurator.Configurator</RootNamespace>
+    <AssemblyName>Configurator</AssemblyName>
+    <MyType>Windows</MyType>
+    <OptionStrict>On</OptionStrict>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DocumentationFile>Configurator.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DocumentationFile>Configurator.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="Microsoft.VisualBasic" />
+    <Import Include="System" />
+    <Import Include="System.Collections" />
+    <Import Include="System.Collections.Generic" />
+    <Import Include="System.Data" />
+    <Import Include="System.Drawing" />
+    <Import Include="System.Diagnostics" />
+    <Import Include="System.Windows.Forms" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Forms\AboutBox.Designer.vb">
+      <DependentUpon>AboutBox.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\AboutBox.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\ConfiguratorApp.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\ConfiguratorApp.Designer.vb">
+      <DependentUpon>ConfiguratorApp.vb</DependentUpon>
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\EditDialog.Designer.vb">
+      <DependentUpon>EditDialog.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\EditDialog.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Fachobjekte\KeyValue.vb" />
+    <Compile Include="Helper\ConfigHelper.vb" />
+    <Compile Include="Helper\ExecuteHelper.vb" />
+    <Compile Include="My Project\AssemblyInfo.vb" />
+    <Compile Include="My Project\Application.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Application.myapp</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Resources.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Settings.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <EmbeddedResource Include="Forms\AboutBox.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>AboutBox.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ConfiguratorApp.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>ConfiguratorApp.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\EditDialog.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>EditDialog.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="My Project\Resources.resx">
+      <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <None Include="My Project\Application.myapp">
+      <Generator>MyApplicationCodeGenerator</Generator>
+      <LastGenOutput>Application.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="My Project\DataSources\KeyValue.datasource" />
+    <None Include="My Project\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <CustomToolNamespace>My</CustomToolNamespace>
+      <LastGenOutput>Settings.Designer.vb</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\FuellerTeufel.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Beenden3.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Info3.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Neuladen3.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Speichern3.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\PayPalDonate.gif" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.VisualBasic.targets" />
+</Project>

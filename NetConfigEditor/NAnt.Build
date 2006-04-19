@@ -1,0 +1,375 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<project xmlns="http://nant.sourceforge.net/release/0.85-rc3/nant.xsd"
+         name="NetConfigEdit"
+         default="build">
+
+	<!--~~~~~~~~~~~~~~~~~
+         Konfiguration
+      ~~~~~~~~~~~~~~~~~-->
+	<!-- NAnt Konfiguration -->
+	<property name="nant.settings.currentframework" value="net-2.0" />
+
+	<!-- Externe Tasks laden -->
+	<loadtasks assembly="Resourcen\DotNetUC.NAnt.Functions.dll" />
+
+	<!-- Systemkonfiguration -->
+	<property name="sysWinDir"     value="${environment::get-variable('SystemRoot')}"/>
+	<property name="sysProgDir"    value="${environment::get-variable('ProgramFiles')}"/>
+
+	<!-- Externe Tools -->
+	<property name="msbuild"
+              value="${sysWinDir}\Microsoft.NET\Framework\v2.0.50727\msbuild.exe" />
+
+	<!-- Parameter für die weitere Verwendung -->
+	<property name="author"      value="Thomas Mentzel"/>
+	<property name="root"        value="${project::get-base-directory()}"/>
+	<property name="outname"     value="${project::get-name()}"/>
+	<property name="projectname" value="${project::get-name()}"/>
+	<property name="debugdir"    value="${root}\${projectname}\bin"/>
+
+	<property name="resourcedir" value="${root}\Resourcen"/>
+	<property name="releasedir"  value="${root}\Release"/>
+	<property name="setupdir"    value="${resourcedir}"/>
+	<property name="packagedir"  value="${root}\Pakete"/>
+
+	<property name="shortdate"   value="${softwarekueche::buildDate()}" />
+	<property name="shorttime"   value="${softwarekueche::buildTime()}" />
+
+	<if test="${not property::exists('CCNetLabel')}">
+		<property name="CCNetLabel"  value="${shortdate}${shorttime}" />
+	</if>
+	<property name="ccnet.label"  value="${CCNetLabel}" />
+
+	<!-- Parameter für das Setup -->
+	<property name="install.name"     value="${project::get-name()}" />
+	<property name="install.author"   value="${author}" />
+	<property name="install.version"  value="${ccnet.label}" />
+	<property name="install.samples"  value="${resourcedir}\Samples" />
+	<property name="install.images"   value="${resourcedir}\Images" />
+
+	<property name="install.fullname" value=".NET Configuration Editor" />
+	<property name="install.company"  value="Softwarekueche" />
+	<property name="install.comment"  value="Installationsprogramm für den .Net Config Editor" />
+	<property name="install.keywords" value=".Net, VS2005, Configuration, Editor, ConfigEditor" />
+
+	<!--~~~~~~~~~~~~~~~~~
+         Default Targets 
+      ~~~~~~~~~~~~~~~~~-->
+
+	<!-- Target für "Erstellen" -->
+	<target name="build" description="Erstellen des gesamten Projektes">
+		<call target="clean" />
+
+		<call target="msbuild" />
+		<call target="doc-sdk"/>
+		<call target="releaseFiles" />
+		<call target="cleanDebug" />
+		<call target="msisetup" />
+		<call target="package" />
+		<call target="clean" />
+	</target>
+
+	<!--~~~~~~~~~~~~~
+         Sub-Targets 
+      ~~~~~~~~~~~~~-->
+
+	<target name="clean" description="Bereinigen des Solution Verzeichnisses" 
+            depends="cleanDebug,cleanRelease">
+	</target>
+
+	<!-- Aufrufen von MSBuild zum erstellen von Debug und Release -->
+	<target name="msbuild" description="Aufrufen des MSBuild Prozesses">
+		<exec program="${msbuild}"
+              workingdir="${root}">
+			<arg value="/p:Configuration=Debug" />
+		</exec>
+
+		<exec program="${msbuild}"
+              workingdir="${root}">
+			<arg value="/p:Configuration=Release" />
+		</exec>
+	</target>
+
+	<!-- Verschiedene Dateien veröffentlichen -->
+	<target name="releaseFiles" description="Verschiedene Dateien veröffenltichen"
+			depends="msbuild" >
+		<copy   failonerror="false" file="${root}\Doc\MSDN\${outname}-SDK.chm" todir="${releasedir}" />
+		<copy   failonerror="false" file="${resourcedir}\Handbuch.chm" todir="${releasedir}" />
+		<copy   failonerror="false" file="${root}\MessageDialog.csv" todir="${releasedir}" />
+		<!-- Erstetzen der Konfigurationsdatei -->
+		<!--
+		<delete failonerror="false" file="${releasedir}\Dvd4Sarah.exe.config" />
+        <copy   failonerror="false" file="${root}\Dvd4Sarah.exe.config" todir="${releasedir}" />
+		-->
+	</target>
+
+	<!-- Erstellen eines Paketes mit den notwenigen Dateien -->
+	<target name="package" description="Erstellen des Paketes">
+		<mkdir dir="${packagedir}" />
+		<zip zipfile="${packagedir}\${outname}-${ccnet.label}.zip">
+
+			<fileset basedir="${releasedir}" prefix="bin">
+				<include name="*.exe" />
+				<include name="*.dll" />
+				<include name="*.config" />
+			</fileset>
+
+			<fileset basedir="${releasedir}" prefix="doc">
+				<include name="*.chm" />
+			</fileset>
+
+			<fileset basedir="${resourcedir}" prefix="doc">
+				<include name="*.pdf" />
+			</fileset>
+
+			<fileset basedir="${root}" prefix="src">
+				<include name="*.*" />
+
+				<include name="Resourcen/**/*" />
+
+				<include name="Configurator/**/*" />
+				<include name="WinConfigurator/**/*" />
+			</fileset>
+
+			<fileset basedir="${releasedir}">
+				<include name="*.txt" />
+				<include name="*.msi" />
+			</fileset>
+		</zip>
+	</target>
+
+	<!-- Bereinigen -->
+	<target name="cleanDebug" description="Reinigen der Verzeichnisse">
+		<foreach item="Folder" in="${root}" property="dirname">
+			<delete failonerror="false" dir="${dirname}\bin" />
+			<delete failonerror="false" dir="${dirname}\obj" />
+		</foreach>
+	</target>
+
+	<!-- Bereinigen -->
+	<target name="cleanRelease" description="Reinigen der Verzeichnisse">
+		<delete failonerror="false" dir="${root}\Doc" />
+		<delete failonerror="false">
+			<fileset basedir="${releasedir}">
+				<include name="*.*" />
+			</fileset>
+		</delete>
+	</target>
+
+	<!-- Erstellen der Programmierdokumentation -->
+	<target name="doc-sdk" description="Erstellen der SDK-Dokumentation">
+		<ndoc>
+			<assemblies basedir="${releasedir}">
+				<include name="Configurator.dll" />
+			</assemblies>
+			<summaries basedir="${root}">
+				<include name="NamespaceSummaries.xml" />
+			</summaries>
+			<documenters>
+				<documenter name="MSDN">
+					<property name="OutputDirectory" value="${root}\Doc\MSDN" />
+					<property name="HtmlHelpName" value="${outname}-SDK.chm" />
+					<property name="HtmlHelpCompilerFilename" value="hhc.exe" />
+					<property name="IncludeFavorites" value="False" />
+					<property name="Title" value="${projectname} SDK Dokumentation" />
+					<property name="SplitTOCs" value="False" />
+					<property name="DefaulTOC" value="" />
+					<property name="ShowVisualBasic" value="True" />
+					<property name="ShowMissingSummaries" value="True" />
+					<property name="ShowMissingRemarks" value="False" />
+					<property name="ShowMissingParams" value="False" />
+					<property name="ShowMissingReturns" value="False" />
+					<property name="ShowMissingValues" value="False" />
+					<property name="DocumentInternals" value="False" />
+					<property name="DocumentProtected" value="False" />
+					<property name="DocumentPrivates" value="False" />
+					<property name="DocumentEmptyNamespaces" value="True" />
+					<property name="IncludeAssemblyVersion" value="True" />
+					<property name="CopyrightText" value="Copyright (c) 2006 Thomas Mentzel" />
+					<property name="CopyrightHref" value="http://dotnetuc.berlios.de" />
+				</documenter>
+			</documenters>
+		</ndoc>
+	</target>
+
+	<target name="msisetup" Description="Erstellen des Setup">
+
+		<msi output="${releasedir}\${install.name}-${install.version}.msi" 
+             sourcedir="${releasedir}" 
+             license="${resourcedir}\Lizenz.rtf">
+
+			<summaryinformation>
+				<title>${install.name} Setup</title>
+				<subject>${install.name}</subject>
+				<author>${install.author}</author>
+				<keywords>${install.keywords}</keywords>
+				<comments>${install.comment}</comments>
+				<template>;1031</template>
+				<creatingapplication>NAnt - http://nant.sf.net </creatingapplication>
+			</summaryinformation>
+
+			<properties>
+				<property name="ProductName" value="${install.name}" />
+				<property name="ProductVersion" value="${install.version}" />
+				<property name="Manufacturer" value="${install.company}" />
+				<property name="ProductCode" value="{FFD8F096-3371-4cba-87E1-A8C6511F7B4C}" />
+				<property name="UpgradeCode" value="{FFE66919-0DE1-4280-B4C1-94049F76BA1A}" />
+			</properties>
+
+			<search>
+				<registry type="registry" path=".config" root="classes" >
+					<value setproperty="DEFCFGHANDLER" />
+				</registry>
+			</search>
+
+			<!--<launchconditions>
+
+                <launchcondition name="Net20" condition="">
+                    <description>Die Anwendung benötigt das .NET Framework 2.0</description>
+                </launchcondition>
+
+            </launchconditions>-->
+
+			<directories>
+
+				<directory name="D_Main" foldername="${install.company}" root="ProgramFilesFolder" >
+					<directory name="D_Prog" foldername="${install.name}">
+						<directory name="D_Samples" foldername="Beispiele" />
+						<directory name="D_Images" foldername="Bilder" />
+						<directory name="D_Doc" foldername="Dokumentation" />
+					</directory>
+				</directory>
+
+				<directory name="D_StartMenu" foldername=".NET Config Editor" root="ProgramMenuFolder">
+					<directory name="D_StartMenuTool" foldername="Tools" />
+				</directory>
+
+				<directory name="D_System32" foldername="System32" root="WindowsFolder" />
+
+			</directories>
+
+			<components>
+
+				<component name="C_Main" id="{FFAA7144-E683-441D-9843-3C79AEC1C636}" 
+                           attr="0" directory="D_Prog" feature="F_Main">
+					<key file="WinConfigurator.exe" />
+					<fileset basedir="${releasedir}">
+						<include name="*.exe" />
+						<include name="*.dll" />
+						<include name="*.config" />
+						<include name="${install.images}\NetConfigEditor.ico" />
+					</fileset>
+				</component>
+
+				<component name="C_Samples" id="{FFAA7144-E683-441D-9843-3C79AEC1C637}" 
+                           attr="12" directory="D_Samples" feature="F_Samples">
+					<key file="" />
+					<fileset basedir="${install.samples}">
+						<include name="*.Dvd4Sarah" />
+					</fileset>
+				</component>
+
+				<component name="C_Images" id="{FFAA7144-E683-441D-9843-3C79AEC1C638}" 
+                           attr="12" directory="D_Images" feature="F_Images">
+					<key file="" />
+					<fileset basedir="${install.images}">
+						<include name="*.gif" />
+						<include name="*.jpg" />
+						<include name="*.png" />
+						<include name="*.ico" />
+					</fileset>
+				</component>
+
+				<component name="C_Doc" id="{FFAA7144-E683-441D-9843-3C79AEC1C639}" 
+                           attr="12" directory="D_Doc" feature="F_Doc">
+					<key file="" />
+					<fileset basedir="${releasedir}">
+						<include name="${outname}-SDK.chm" />
+						<!--<include name="Handbuch.chm" />-->
+					</fileset>
+				</component>
+
+			</components>
+
+			<registry>
+				<key component="C_Main" root="classes" path="[DEFCFGHANDLER]\shell\Edit" >
+					<value name="" value="&amp;Bearbeiten... (.NET Config Editor)" />
+				</key>
+				<key component="C_Main" root="classes" path="[DEFCFGHANDLER]\shell\Edit\Command" >
+					<value name="" value="[$C_Main]\WinConfigurator.exe --single &quot;%1&quot;" />
+				</key>
+			</registry>
+
+			<icons>
+				<icon name="I_Main" value="${install.images}\NetConfigEditor.ico" />
+			</icons>
+
+			<shortcuts>
+
+				<shortcut name="SdkDoc" 
+                        directory="D_StartMenuTool"
+                        filename="SDK Dokumentation" 
+                        component="C_Doc" 
+                        target="[$C_Doc]\${outname}-SDK.chm">
+					<description>Quellcodedokumentation</description>
+				</shortcut>
+
+				<shortcut name="NET Config Editor" 
+                          directory="D_StartMenu"
+                          filename="${install.name}" 
+                          component="C_Main" 
+                          target="[$C_Main]\WinConfigurator.exe" 
+                          icon="I_Main">
+					<description>WinConfigurator starten</description>
+				</shortcut>
+
+				<!--<shortcut name="ManualDoc" 
+                          directory="D_StartMenu"
+                          filename="Handbuch" 
+                          component="C_Doc" 
+                          target="[$C_Doc]\Handbuch.chm">
+					<description>Dokumentation der Anwendung</description>
+				</shortcut>-->
+
+				<shortcut name="Deinstallieren" 
+                        directory="D_StartMenuTool"
+                        component="C_Main" 
+                        filename="Deinstallieren" 
+                        target="[WindowsFolder]\System32\msiexec.exe"
+                        arguments="/uninstall [ProductCode]">
+					<description>.NET Config Editor deinstallieren</description>
+				</shortcut>
+
+			</shortcuts>
+
+			<features>
+
+				<feature name="F_Main"    display="1" directory="D_Prog" 
+                         title="NetConfigEditor" attr="28" typical="true">
+					<description>.NET Configurator Anwendung</description>
+
+					<feature name="F_Images" display="3" directory="D_Images" 
+                             title="Bilder" attr="0" typical="false">
+						<description>Bilder</description>
+
+					</feature>
+
+					<feature name="F_Samples" display="2" directory="D_Samples" 
+                             title="Beispiele" attr="12" typical="false">
+						<description>Beispiele</description>
+					</feature>
+
+					<feature name="F_Doc" display="2" directory="D_Doc" 
+                             title="Dokumentation" attr="12" typical="true">
+						<description>Dokumentation, Handbuch usw.</description>
+					</feature>
+
+				</feature>
+
+			</features>
+
+		</msi>
+
+	</target>
+
+</project>

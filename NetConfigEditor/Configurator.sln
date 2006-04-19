@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 9.00
+# Visual Basic Express 2005
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Configurator", "Configurator\Configurator.vbproj", "{4B472C12-767E-4822-A474-5D1EDD7053EA}"
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "WinConfigurator", "WinConfigurator\WinConfigurator.vbproj", "{48DD8108-2204-4A27-A8D8-D7C192825E60}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4B472C12-767E-4822-A474-5D1EDD7053EA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4B472C12-767E-4822-A474-5D1EDD7053EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4B472C12-767E-4822-A474-5D1EDD7053EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4B472C12-767E-4822-A474-5D1EDD7053EA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{48DD8108-2204-4A27-A8D8-D7C192825E60}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{48DD8108-2204-4A27-A8D8-D7C192825E60}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{48DD8108-2204-4A27-A8D8-D7C192825E60}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{48DD8108-2204-4A27-A8D8-D7C192825E60}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
