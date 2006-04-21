@@ -65,6 +65,7 @@ Public Class EditDialog
 
     Private Sub ReBind()
         bndKeyValue.DataSource = _list
+        bndKeyValue.ResetBindings(False)
     End Sub
 
     Private Sub toolInfo_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles toolInfo.Click
@@ -105,6 +106,14 @@ Public Class EditDialog
 
         End If
 
+    End Sub
+
+    Private Sub toolLöschen_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles toolLöschen.Click
+        If bndKeyValue.Current Is Nothing Then Exit Sub
+        If Not TypeOf bndKeyValue.Current Is KeyValue Then Exit Sub
+
+        _list.Remove(bndKeyValue.Current)
+        ReBind()
     End Sub
 
 End Class

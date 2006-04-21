@@ -1,0 +1,61 @@
+body {
+}
+
+h1, h2 {
+	color: #000033;
+}
+
+h3, h4, h5, h6 {
+	color: #006699;
+}
+
+a {
+  color: #003366;
+}
+
+/* Definition der Layer */
+
+/* Menü */
+
+div#menu {
+	background-color: #CCCCCC;
+	padding:5px;
+	border-width: 1px;
+	border-color: #999999;
+	border-style: dashed;
+	position: absolute;
+	top:100px;
+	left:10px;
+	width: 200px;
+}
+
+div#content {
+	background-color: #EEEEEE;
+	padding:5px;
+	border-width: 1px;
+	border-color: #999999;
+	border-style: dashed;
+	position: absolute;
+	top:100px;
+	left:240px;
+	width: 750px;
+}
+
+div#header {
+	background-color: #CCCCFF;
+	padding:5px;
+	border-width: 1px;
+	border-color: #999999;
+	border-style: dashed;
+	position: absolute;
+	top:10px;
+	left:10px;
+	width: 981px;
+	height: 65px;
+}
+
+div#footer {
+	visibility: hidden;
+}
+
+

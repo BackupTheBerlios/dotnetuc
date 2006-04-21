@@ -34,6 +34,7 @@ Partial Class EditDialog
         Me.toolExit = New System.Windows.Forms.ToolStripButton
         Me.toolSep0 = New System.Windows.Forms.ToolStripSeparator
         Me.toolInfo = New System.Windows.Forms.ToolStripButton
+        Me.toolLöschen = New System.Windows.Forms.ToolStripButton
         CType(Me.dgvKeyValue, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.bndKeyValue, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.stripMenu.SuspendLayout()
@@ -98,7 +99,7 @@ Partial Class EditDialog
         '
         'stripMenu
         '
-        Me.stripMenu.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.toolReload, Me.toolSave, Me.toolExit, Me.toolSep0, Me.toolInfo})
+        Me.stripMenu.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.toolReload, Me.toolSave, Me.toolExit, Me.toolSep0, Me.toolLöschen, Me.toolInfo})
         Me.stripMenu.Location = New System.Drawing.Point(0, 0)
         Me.stripMenu.Name = "stripMenu"
         Me.stripMenu.Size = New System.Drawing.Size(442, 25)
@@ -108,7 +109,7 @@ Partial Class EditDialog
         'toolReload
         '
         Me.toolReload.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
-        Me.toolReload.Image = Global.Softwarekueche.NetConfigurator.Configurator.My.Resources.Resources.Neuladen3
+        Me.toolReload.Image = Global.Softwarekueche.NetConfigurator.Configurator.My.Resources.Resources.Neuladen
         Me.toolReload.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.toolReload.Name = "toolReload"
         Me.toolReload.Size = New System.Drawing.Size(23, 22)
@@ -118,7 +119,7 @@ Partial Class EditDialog
         'toolSave
         '
         Me.toolSave.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
-        Me.toolSave.Image = Global.Softwarekueche.NetConfigurator.Configurator.My.Resources.Resources.Speichern3
+        Me.toolSave.Image = Global.Softwarekueche.NetConfigurator.Configurator.My.Resources.Resources.Speichern
         Me.toolSave.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.toolSave.Name = "toolSave"
         Me.toolSave.Size = New System.Drawing.Size(23, 22)
@@ -128,7 +129,7 @@ Partial Class EditDialog
         'toolExit
         '
         Me.toolExit.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
-        Me.toolExit.Image = Global.Softwarekueche.NetConfigurator.Configurator.My.Resources.Resources.Beenden3
+        Me.toolExit.Image = Global.Softwarekueche.NetConfigurator.Configurator.My.Resources.Resources.Beenden
         Me.toolExit.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.toolExit.Name = "toolExit"
         Me.toolExit.Size = New System.Drawing.Size(23, 22)
@@ -143,12 +144,22 @@ Partial Class EditDialog
         'toolInfo
         '
         Me.toolInfo.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
-        Me.toolInfo.Image = Global.Softwarekueche.NetConfigurator.Configurator.My.Resources.Resources.Info3
+        Me.toolInfo.Image = Global.Softwarekueche.NetConfigurator.Configurator.My.Resources.Resources.Info
         Me.toolInfo.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.toolInfo.Name = "toolInfo"
         Me.toolInfo.Size = New System.Drawing.Size(23, 22)
         Me.toolInfo.Text = "Infobox"
         Me.toolInfo.ToolTipText = "Infobox anzeigen"
+        '
+        'toolLöschen
+        '
+        Me.toolLöschen.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
+        Me.toolLöschen.Image = Global.Softwarekueche.NetConfigurator.Configurator.My.Resources.Resources.Loeschen
+        Me.toolLöschen.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.toolLöschen.Name = "toolLöschen"
+        Me.toolLöschen.Size = New System.Drawing.Size(23, 22)
+        Me.toolLöschen.Text = "Schlüssel löschen"
+        Me.toolLöschen.ToolTipText = "Ausgewählten Schlüssel löschen"
         '
         'EditDialog
         '
@@ -179,4 +190,5 @@ Partial Class EditDialog
     Friend WithEvents toolExit As System.Windows.Forms.ToolStripButton
     Friend WithEvents toolSep0 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents toolInfo As System.Windows.Forms.ToolStripButton
+    Friend WithEvents toolLöschen As System.Windows.Forms.ToolStripButton
 End Class

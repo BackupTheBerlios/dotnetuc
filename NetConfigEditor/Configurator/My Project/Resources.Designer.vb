@@ -60,9 +60,9 @@ Namespace My.Resources
             End Set
         End Property
         
-        Friend ReadOnly Property Beenden3() As System.Drawing.Bitmap
+        Friend ReadOnly Property Beenden() As System.Drawing.Bitmap
             Get
-                Dim obj As Object = ResourceManager.GetObject("Beenden3", resourceCulture)
+                Dim obj As Object = ResourceManager.GetObject("Beenden", resourceCulture)
                 Return CType(obj,System.Drawing.Bitmap)
             End Get
         End Property
@@ -74,16 +74,23 @@ Namespace My.Resources
             End Get
         End Property
         
-        Friend ReadOnly Property Info3() As System.Drawing.Bitmap
+        Friend ReadOnly Property Info() As System.Drawing.Bitmap
             Get
-                Dim obj As Object = ResourceManager.GetObject("Info3", resourceCulture)
+                Dim obj As Object = ResourceManager.GetObject("Info", resourceCulture)
                 Return CType(obj,System.Drawing.Bitmap)
             End Get
         End Property
         
-        Friend ReadOnly Property Neuladen3() As System.Drawing.Bitmap
+        Friend ReadOnly Property Loeschen() As System.Drawing.Bitmap
             Get
-                Dim obj As Object = ResourceManager.GetObject("Neuladen3", resourceCulture)
+                Dim obj As Object = ResourceManager.GetObject("Loeschen", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
+        Friend ReadOnly Property Neuladen() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("Neuladen", resourceCulture)
                 Return CType(obj,System.Drawing.Bitmap)
             End Get
         End Property
@@ -95,9 +102,9 @@ Namespace My.Resources
             End Get
         End Property
         
-        Friend ReadOnly Property Speichern3() As System.Drawing.Bitmap
+        Friend ReadOnly Property Speichern() As System.Drawing.Bitmap
             Get
-                Dim obj As Object = ResourceManager.GetObject("Speichern3", resourceCulture)
+                Dim obj As Object = ResourceManager.GetObject("Speichern", resourceCulture)
                 Return CType(obj,System.Drawing.Bitmap)
             End Get
         End Property

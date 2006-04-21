@@ -119,19 +119,22 @@
     <None Include="Resources\FuellerTeufel.gif" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Beenden3.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Info3.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Neuladen3.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Speichern3.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\PayPalDonate.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Loeschen.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Neuladen.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Speichern.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Beenden.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Info.png" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.VisualBasic.targets" />
 </Project>
