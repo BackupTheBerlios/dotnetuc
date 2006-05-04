@@ -1,0 +1,167 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<project xmlns="http://nant.sourceforge.net/release/0.85-rc3/nant.xsd"
+         name="CsvMapper"
+         default="package">
+
+	<!--~~~~~~~~~~~~~~~~~
+         Konfiguration
+      ~~~~~~~~~~~~~~~~~-->
+	<!-- NAnt Konfiguration -->
+	<property name="nant.settings.currentframework" value="net-2.0" />
+
+	<!-- Externe Tasks laden -->
+	<loadtasks assembly="DotNetUC.NAnt.Functions.dll" />
+
+	<!-- Systemkonfiguration -->
+	<property name="sysWinDir"     value="${environment::get-variable('SystemRoot')}"/>
+	<property name="sysProgDir"    value="${environment::get-variable('ProgramFiles')}"/>
+
+	<!-- Externe Tools -->
+	<property name="msbuild"
+              value="${sysWinDir}\Microsoft.NET\Framework\v2.0.50727\msbuild.exe" />
+
+	<!-- Parameter für die weitere Verwendung -->
+	<property name="author"      value="Thomas Mentzel"/>
+	<property name="root"        value="${project::get-base-directory()}"/>
+	<property name="outname"     value="${project::get-name()}"/>
+	<property name="projectname" value="${project::get-name()}"/>
+	<property name="debugdir"    value="${root}\${projectname}\bin"/>
+
+	<property name="resourcedir" value="${root}\Resourcen"/>
+	<property name="releasedir"  value="${root}\Release"/>
+	<property name="setupdir"    value="${resourcedir}"/>
+	<property name="packagedir"  value="${root}\Pakete"/>
+
+	<property name="shortdate"   value="${softwarekueche::buildDate()}" />
+	<property name="shorttime"   value="${softwarekueche::buildTime()}" />
+
+	<if test="${not property::exists('CCNetLabel')}">
+		<property name="CCNetLabel"  value="${shortdate}${shorttime}" />
+	</if>
+	<property name="ccnet.label"  value="${CCNetLabel}" />
+
+	<!-- Parameter für das Setup -->
+	<property name="install.name"     value="${project::get-name()}" />
+	<property name="install.author"   value="${author}" />
+	<property name="install.version"  value="${ccnet.label}" />
+	<property name="install.samples"  value="${resourcedir}\Samples" />
+	<property name="install.images"   value="${resourcedir}\Images" />
+
+	<property name="install.fullname" value=".NET Configuration Editor" />
+	<property name="install.company"  value="Softwarekueche" />
+	<property name="install.comment"  value="Installationsprogramm für den .Net Config Editor" />
+	<property name="install.keywords" value=".Net, VS2005, Configuration, Editor, ConfigEditor" />
+
+	<!-- Aufrufen von MSBuild zum erstellen von Debug und Release -->
+	<target name="msbuild" description="Aufrufen des MSBuild Prozesses"
+            depends="cleanDebug,cleanRelease">
+		<exec program="${msbuild}"
+              workingdir="${root}">
+			<arg value="/p:Configuration=Debug" />
+		</exec>
+
+		<exec program="${msbuild}"
+              workingdir="${root}">
+			<arg value="/p:Configuration=Release" />
+		</exec>
+	</target>
+
+	<!-- Verschiedene Dateien veröffentlichen -->
+	<target name="release" description="Verschiedene Dateien veröffenltichen"
+			depends="msbuild,doc-sdk" >
+		<copy   failonerror="false" file="${root}\Doc\MSDN\${outname}-SDK.chm" todir="${releasedir}" />
+	</target>
+
+	<!-- Erstellen eines Paketes mit den notwenigen Dateien -->
+	<target name="package" description="Erstellen des Paketes"
+            depends="release">
+		<mkdir dir="${packagedir}" />
+		<zip zipfile="${packagedir}\${outname}-${ccnet.label}.zip">
+
+			<fileset basedir="${releasedir}" prefix="bin">
+				<include name="*.dll" />
+				<include name="*.config" />
+			</fileset>
+
+			<fileset basedir="${releasedir}" prefix="doc">
+				<include name="*.chm" />
+                <include name="*.pdf" />
+                <include name="*.doc" />
+                <include name="*.rtf" />
+            </fileset>
+
+			<fileset basedir="${root}" prefix="src">
+				<include name="*.*" />
+
+				<include name="Resourcen/**/*" />
+
+				<include name="CsvMapper/**/*" />
+				<include name="CsvMapperGui/**/*" />
+			</fileset>
+
+			<fileset basedir="${releasedir}">
+				<include name="*.txt" />
+				<include name="*.msi" />
+			</fileset>
+		</zip>
+	</target>
+
+	<!-- Bereinigen Debug -->
+	<target name="cleanDebug" description="Reinigen der Verzeichnisse">
+		<foreach item="Folder" in="${root}" property="dirname">
+			<delete failonerror="false" dir="${dirname}\bin" />
+			<delete failonerror="false" dir="${dirname}\obj" />
+		</foreach>
+	</target>
+
+	<!-- Bereinigen Release-->
+	<target name="cleanRelease" description="Reinigen der Verzeichnisse">
+		<delete failonerror="false" dir="${root}\Doc" />
+		<delete failonerror="false">
+			<fileset basedir="${releasedir}">
+				<include name="*.*" />
+			</fileset>
+		</delete>
+	</target>
+
+	<!-- Erstellen der Programmierdokumentation -->
+	<target name="doc-sdk" description="Erstellen der SDK-Dokumentation">
+        
+		<ndoc failonerror="false">
+            
+			<assemblies basedir="${releasedir}">
+				<include name="CsvMapper.dll" />
+			</assemblies>
+            
+			<summaries basedir="${root}">
+				<include name="NamespaceSummaries.xml" />
+			</summaries>
+            
+			<documenters>
+				<documenter name="MSDN">
+					<property name="OutputDirectory" value="${root}\Doc\MSDN" />
+					<property name="HtmlHelpName" value="${outname}-SDK.chm" />
+					<property name="HtmlHelpCompilerFilename" value="hhc.exe" />
+					<property name="IncludeFavorites" value="False" />
+					<property name="Title" value="${projectname} SDK Dokumentation" />
+					<property name="SplitTOCs" value="False" />
+					<property name="DefaulTOC" value="" />
+					<property name="ShowVisualBasic" value="True" />
+					<property name="ShowMissingSummaries" value="False" />
+					<property name="ShowMissingRemarks" value="False" />
+					<property name="ShowMissingParams" value="False" />
+					<property name="ShowMissingReturns" value="False" />
+					<property name="ShowMissingValues" value="False" />
+					<property name="DocumentInternals" value="False" />
+					<property name="DocumentProtected" value="False" />
+					<property name="DocumentPrivates" value="False" />
+					<property name="DocumentEmptyNamespaces" value="False" />
+					<property name="IncludeAssemblyVersion" value="True" />
+					<property name="CopyrightText" value="Copyright (c) 2006 Thomas Mentzel" />
+					<property name="CopyrightHref" value="http://dotnetuc.berlios.de" />
+				</documenter>
+			</documenters>
+		</ndoc>
+	</target>
+
+</project>
