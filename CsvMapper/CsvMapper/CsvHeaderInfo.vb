@@ -9,8 +9,4 @@ Public Class CsvHeaderInfo
 
     Private _header As String
 
-    Public Overrides Function ToString() As String
-        Return _index & " -> " & _header
-    End Function
-
 End Class

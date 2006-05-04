@@ -75,6 +75,9 @@
 	<!-- Erstellen eines Paketes mit den notwenigen Dateien -->
 	<target name="package" description="Erstellen des Paketes"
             depends="release">
+
+        <call target="cleanDebug" />
+        
 		<mkdir dir="${packagedir}" />
 		<zip zipfile="${packagedir}\${outname}-${ccnet.label}.zip">
 
@@ -104,7 +107,10 @@
 				<include name="*.msi" />
 			</fileset>
 		</zip>
-	</target>
+
+        <call target="cleanRelease" />
+
+    </target>
 
 	<!-- Bereinigen Debug -->
 	<target name="cleanDebug" description="Reinigen der Verzeichnisse">
@@ -122,7 +128,8 @@
 				<include name="*.*" />
 			</fileset>
 		</delete>
-	</target>
+        <delete failonerror="false" dir="${releasedir}" />
+    </target>
 
 	<!-- Erstellen der Programmierdokumentation -->
 	<target name="doc-sdk" description="Erstellen der SDK-Dokumentation">

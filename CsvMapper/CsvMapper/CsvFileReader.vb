@@ -1,7 +1,7 @@
 ﻿Imports System.Data.Odbc
 
 Public Class CsvFileReader
-    Implements IEnumerator(Of CsvFileItem)
+    Implements IEnumerator
 
     Public Sub New(ByVal initFileName As String)
         Dim fi As New IO.FileInfo(initFileName)
@@ -87,7 +87,7 @@ Public Class CsvFileReader
         _dr = csvCommand.ExecuteReader()
     End Sub
 
-    Private ReadOnly Property CurrentTyped() As CsvFileItem Implements System.Collections.Generic.IEnumerator(Of CsvFileItem).Current
+    Private ReadOnly Property Current() As Object Implements System.Collections.IEnumerator.Current
         Get
             If _dr Is Nothing Then OpenDataReader()
 
@@ -100,57 +100,14 @@ Public Class CsvFileReader
         End Get
     End Property
 
-    Private ReadOnly Property CurrentUntyped() As Object Implements System.Collections.IEnumerator.Current
-        Get
-            Return CurrentTyped
-        End Get
-    End Property
-
     Private Function MoveNext() As Boolean Implements System.Collections.IEnumerator.MoveNext
-        If _dr Is Nothing Then
-            Try
-                OpenDataReader()
-                Return _dr.Read()
-                '                Return _dr.HasRows
-            Catch ex As Exception
-                Return False
-            End Try
-        Else
-            Return _dr.Read()
-        End If
+        If _dr Is Nothing Then OpenDataReader()
+        Return _dr.Read()
     End Function
 
     Private Sub Reset() Implements System.Collections.IEnumerator.Reset
         If Not _dr Is Nothing Then _dr.Close()
         _dr = Nothing
-    End Sub
-
-#End Region
-
-#Region " IDisposable Support "
-
-    Private disposedValue As Boolean = False        ' To detect redundant calls
-
-    ' IDisposable
-    Protected Overridable Sub Dispose(ByVal disposing As Boolean)
-        If Not Me.disposedValue Then
-            If disposing Then
-                ' free unmanaged resources when explicitly called
-
-            End If
-
-            ' free shared unmanaged resources
-            If Not _dr Is Nothing AndAlso Not _dr.IsClosed Then _dr.Close()
-
-        End If
-        Me.disposedValue = True
-    End Sub
-
-    ' This code added by Visual Basic to correctly implement the disposable pattern.
-    Public Sub Dispose() Implements IDisposable.Dispose
-        ' Do not change this code.  Put cleanup code in Dispose(ByVal disposing As Boolean) above.
-        Dispose(True)
-        GC.SuppressFinalize(Me)
     End Sub
 
 #End Region

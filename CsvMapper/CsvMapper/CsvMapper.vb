@@ -57,19 +57,19 @@
 
     Private _csvFileReader As CsvFileReader
 
-    Public ReadOnly Property Fields() As IList
-        Get
-            If _fieldInfos Is Nothing Then Return Nothing
-            Return _fieldInfos
-        End Get
-    End Property
+    'Public ReadOnly Property Fields() As IList
+    '    Get
+    '        If _fieldInfos Is Nothing Then Return Nothing
+    '        Return _fieldInfos
+    '    End Get
+    'End Property
 
-    Public ReadOnly Property Header() As IList
-        Get
-            If _csvFileReader Is Nothing Then Return Nothing
-            Return _csvFileReader.Header
-        End Get
-    End Property
+    'Public ReadOnly Property Header() As IList
+    '    Get
+    '        If _csvFileReader Is Nothing Then Return Nothing
+    '        Return _csvFileReader.Header
+    '    End Get
+    'End Property
 
     Public Property CsvFile() As String
         Get
@@ -86,14 +86,14 @@
         Dim val As Object
         Dim cur As CsvFileItem
 
-        Dim en As IEnumerator(Of CsvFileItem) = CType(_csvFileReader, IEnumerator(Of CsvFileItem))
+        Dim en As IEnumerator = _csvFileReader
 
         While en.MoveNext
             tmp = CType(Activator.CreateInstance(GetType(keyType)), keyType)
 
-            cur = en.Current
+            cur = CType(en.Current, CsvFileItem)
 
-            For Each cfi As CsvFieldInfo In _fieldInfos
+            For Each cfi As CsvFieldInfo In Me._fieldInfos
                 Try
                     val = cur.Item(cfi.CsvAttribute.csvColumn)
                 Catch ex As Exception

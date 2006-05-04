@@ -14,11 +14,6 @@ Public Class Form1
 
         Dim cm As New CsvMapper(Of AttrKlasse)(InputFile1.Value)
 
-        For Each cfi As CsvFieldInfo In cm.Fields
-            Debug.WriteLine(cfi.ToString())
-        Next
-
-
         Dim lst As IList = cm.List
 
         For Each o As Object In lst
