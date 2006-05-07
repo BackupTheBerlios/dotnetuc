@@ -40,18 +40,6 @@
 	</if>
 	<property name="ccnet.label"  value="${CCNetLabel}" />
 
-	<!-- Parameter für das Setup -->
-	<property name="install.name"     value="${project::get-name()}" />
-	<property name="install.author"   value="${author}" />
-	<property name="install.version"  value="${ccnet.label}" />
-	<property name="install.samples"  value="${resourcedir}\Samples" />
-	<property name="install.images"   value="${resourcedir}\Images" />
-
-	<property name="install.fullname" value=".NET Configuration Editor" />
-	<property name="install.company"  value="Softwarekueche" />
-	<property name="install.comment"  value="Installationsprogramm für den .Net Config Editor" />
-	<property name="install.keywords" value=".Net, VS2005, Configuration, Editor, ConfigEditor" />
-
 	<!-- Aufrufen von MSBuild zum erstellen von Debug und Release -->
 	<target name="msbuild" description="Aufrufen des MSBuild Prozesses"
             depends="cleanDebug,cleanRelease">
@@ -141,7 +129,7 @@
 			</assemblies>
             
 			<summaries basedir="${root}">
-				<include name="NamespaceSummaries.xml" />
+				<include name="CsvMapper\Summary.xml" />
 			</summaries>
             
 			<documenters>
@@ -163,7 +151,7 @@
 					<property name="DocumentProtected" value="False" />
 					<property name="DocumentPrivates" value="False" />
 					<property name="DocumentEmptyNamespaces" value="False" />
-					<property name="IncludeAssemblyVersion" value="True" />
+					<property name="IncludeAssemblyVersion" value="False" />
 					<property name="CopyrightText" value="Copyright (c) 2006 Thomas Mentzel" />
 					<property name="CopyrightHref" value="http://dotnetuc.berlios.de" />
 				</documenter>

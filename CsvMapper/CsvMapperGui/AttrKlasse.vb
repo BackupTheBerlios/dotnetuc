@@ -18,6 +18,7 @@ Public Class AttrKlasse
 
     Private _alter As Integer
 
+    <CsvAttribute("AlterSpalte")> _
     Public Property Alter() As Integer
         Get
             Return _alter

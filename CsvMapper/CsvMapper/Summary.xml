@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+
+<namespaces>
+	
+	<namespace name="Softwarekueche.CsvMapper">
+		<h1>Ziel</h1>
+		<p>
+			Der CsvMapper ist ein Generator von beliebigen Klassen auf das Basis
+			von CSV Dateien. Dazu müssen die Klassen ein CsvAttribut definieren,
+			dass mit den Spaltenüberschriften in der CSV Datei überein stimmt.
+		</p>
+		<code>
+			&lt;CsvAttribute("AlterSpalte")&gt; _
+	Public Property Alter() As Integer
+		Get
+			Return _alter
+		End Get
+		Set(ByVal value As Integer)
+			_alter = value
+		End Set
+	End Property
+			</code>
+		<p>
+			Mit der Methode des CsvMappers CsvMapper(Of BO).List() wird für jede Datenzeile
+			in der CSV Datei ein Objekt von Typ BO angelegt. Die Eigenschaften,
+			die über Attribute mit den Spalten verknüpft werden, werden mit Werten
+			gefüllt.
+		</p>
+		<code>
+	Dim cm As New CsvMapper(Of AttrKlasse)("Test.csv")
+
+	Dim lst As IList = cm.List
+
+	For Each o As AttrKlasse In lst
+		Debug.WriteLine(o.ToString())
+	Next
+		</code>
+		<p>Es ist nicht möglich, Objekthierarchien oder Objektlisten
+		einzubinden. Es können legidlich Testobjekte auf der Basis einer
+		CSV Datei angelegt werden.</p>
+	</namespace>
+	
+</namespaces>

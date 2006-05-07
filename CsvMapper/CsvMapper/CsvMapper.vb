@@ -1,5 +1,25 @@
-﻿Public Class CsvMapper(Of keyType)
+﻿''' <summary>
+''' Die Klasse CsvMapper ist die Klasse zum Anlegen von Objekten auf der Basis
+''' einer CSV Datei. Dazu wird als Typ die Klasse angegeben, welche die
+''' <see cref="CsvAttribute">CsvAttribute enthält.</see>
+''' Beim Anlegen einer Klasse wird das Fachobjekt analysiert und die 
+''' Mapping-Informationen des Fachobjektes.
+''' <code>
+''' Dim cm As New CsvMapper(Of AttrKlasse)("Test.csv")
+''' Dim lst As IList = cm.List
+''' 
+''' For Each o As AttrKlasse In lst
+'''     Debug.WriteLine(o.ToString())
+''' Next
+''' </code>
+''' </summary>
+''' <typeparam name="keyType">Typ, von dem eine Liste von Objekten aus der 
+''' CSV Datei erzeugt werden soll.</typeparam>
+Public Class CsvMapper(Of keyType)
 
+    ''' <summary>
+    ''' Erstellt eine neue Instanz und analysiert den KeyType.
+    ''' </summary>
     Public Sub New()
         MyBase.New()
 
@@ -7,14 +27,24 @@
         readFieldInfo()
     End Sub
 
+    ''' <summary>
+    ''' Erstellt eine neue Instanz und analysiert den KeyType.
+    ''' </summary>
+    ''' <param name="initCsvFile">CSV Datei, welche die Daten enthält.</param>
     Public Sub New(ByVal initCsvFile As String)
         Me.New()
 
         CsvFile = initCsvFile
     End Sub
 
+    ''' <summary>
+    ''' Speichert den Wert von IgnoreErrors
+    ''' </summary>
     Private _ignoreErrors As Boolean = False
 
+    ''' <summary>
+    ''' Gibt an, ob Mapping-Fehler zu einer Exception führen
+    ''' </summary>
     Public Property IgnoreErrors() As Boolean
         Get
             Return _ignoreErrors
@@ -24,6 +54,9 @@
         End Set
     End Property
 
+    ''' <summary>
+    ''' Liest aus der Fachklasse die CsvAttrubute
+    ''' </summary>
     Private Sub readFieldInfo()
         ' Initialisieren der Felder
         _fieldInfos = New List(Of CsvFieldInfo)
@@ -57,20 +90,9 @@
 
     Private _csvFileReader As CsvFileReader
 
-    'Public ReadOnly Property Fields() As IList
-    '    Get
-    '        If _fieldInfos Is Nothing Then Return Nothing
-    '        Return _fieldInfos
-    '    End Get
-    'End Property
-
-    'Public ReadOnly Property Header() As IList
-    '    Get
-    '        If _csvFileReader Is Nothing Then Return Nothing
-    '        Return _csvFileReader.Header
-    '    End Get
-    'End Property
-
+    ''' <summary>
+    ''' Name der CSV Datei
+    ''' </summary>
     Public Property CsvFile() As String
         Get
             Return _csvFileReader.FileName
@@ -80,6 +102,9 @@
         End Set
     End Property
 
+    ''' <summary>
+    ''' Erzeugt eine Liste von Fachobjekten und gibt diese zurück.
+    ''' </summary>
     Public Function List() As IList
         Dim res As New List(Of keyType)
         Dim tmp As keyType
