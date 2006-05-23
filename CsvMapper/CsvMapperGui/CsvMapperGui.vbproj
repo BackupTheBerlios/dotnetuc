@@ -58,6 +58,7 @@
   <ItemGroup>
     <Compile Include="AttrKlasse.vb" />
     <Compile Include="AttrFalsch.vb" />
+    <Compile Include="Daten.vb" />
     <Compile Include="Form1.vb">
       <SubType>Form</SubType>
     </Compile>
@@ -95,6 +96,9 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Daten.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="DatenFalschTest.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

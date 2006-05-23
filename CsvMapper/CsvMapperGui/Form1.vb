@@ -24,4 +24,19 @@ Public Class Form1
 
     End Sub
 
+    Public Function GenerateDatenList() As IList
+        Dim result As IList
+
+        Dim csvMapper As New CsvMapper(Of Daten)("Daten.csv")
+
+        result = csvMapper.List()
+
+        For Each datenObj As Daten In result
+            Console.WriteLine(datenObj.ToString())
+        Next
+
+        Return result
+    End Function
+
+
 End Class
