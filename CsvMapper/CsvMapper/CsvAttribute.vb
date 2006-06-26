@@ -1,14 +1,15 @@
-﻿''' <summary>
+﻿
+''' <summary>
 ''' Attribut zum Beschreiben des Mappings der CSV Spalten auf das Objekt.
 ''' <code>
-'''&lt;CsvAttribute("AlterSpalte")&gt; _
-'''Public Property Alter() As Integer
-'''    Get
-'''        Return _alter
-'''    End Get
-'''    Set(ByVal value As Integer)
-'''        _alter = value
-'''    End Set
+'''&lt;CsvAttribute("AlterSpalte")&gt; _ <br />
+'''Public Property Alter() As Integer<br />
+'''    Get<br />
+'''        Return _alter<br />
+'''    End Get<br />
+'''    Set(ByVal value As Integer)<br />
+'''        _alter = value<br />
+'''    End Set<br />
 '''End Property
 ''' </code>
 ''' </summary>

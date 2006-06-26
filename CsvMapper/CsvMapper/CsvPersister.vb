@@ -17,7 +17,7 @@
 ''' </summary>
 ''' <typeparam name="keyType">Typ, von dem eine Liste von Objekten aus der 
 ''' CSV Datei erzeugt werden soll.</typeparam>
-Public Class CsvMapper(Of keyType)
+Public Class CsvPersister(Of keyType)
 
     ''' <summary>
     ''' Erstellt eine neue Instanz und analysiert den KeyType.
@@ -90,53 +90,47 @@ Public Class CsvMapper(Of keyType)
 
     Private _fieldInfos As List(Of CsvFieldInfo)
 
-    Private _csvFileReader As CsvFileReader
+    Private _csvFileWriter As CsvFileWriter
 
     ''' <summary>
     ''' Name der CSV Datei
     ''' </summary>
     Public Property CsvFile() As String
         Get
-            Return _csvFileReader.FileName
+            Return _csvFileWriter.FileName
         End Get
         Set(ByVal value As String)
-            _csvFileReader = New CsvFileReader(value)
+            _csvFileWriter = New CsvFileWriter(value)
         End Set
     End Property
 
     ''' <summary>
-    ''' Erzeugt eine Liste von Fachobjekten und gibt diese zurück.
+    ''' Persistiert eine Liste von Fachobjekten.
     ''' </summary>
-    Public Function List() As IList
-        Dim res As New List(Of keyType)
-        Dim tmp As keyType
-        Dim val As Object
-        Dim cur As CsvFileItem
+    Public Sub Persist(ByVal list As List(Of keyType))
+        If _csvFileWriter Is Nothing Then Throw New InvalidCsvFileException("Keine CSV Datei angegeben")
 
-        Dim en As IEnumerator = _csvFileReader.GetEnumerator
+        For Each cfi As CsvFieldInfo In _fieldInfos
+            _csvFileWriter.WriteHeader(cfi.CsvAttribute.csvColumn)
+        Next
 
-        While en.MoveNext
-            tmp = CType(Activator.CreateInstance(GetType(keyType)), keyType)
+        For Each t As keyType In list
 
-            cur = CType(en.Current, CsvFileItem)
+            For Each cfi As CsvFieldInfo In _fieldInfos
+                Dim value As Object
 
-            For Each cfi As CsvFieldInfo In Me._fieldInfos
-                Try
-                    val = cur.Item(cfi.CsvAttribute.csvColumn)
-                Catch ex As Exception
-                    If Not Me.IgnoreErrors Then Throw
-                    val = Nothing
-                End Try
+                value = cfi.PropertyInfo.GetValue(t, Nothing)
 
-                cfi.PropertyInfo.SetValue(tmp, val, Reflection.BindingFlags.Public Or Reflection.BindingFlags.SetField Or Reflection.BindingFlags.Instance, Nothing, Nothing, Globalization.CultureInfo.CurrentCulture)
+                _csvFileWriter.WriteField(value, cfi.PropertyInfo.PropertyType)
+
             Next
 
-            res.Add(tmp)
-        End While
+            _csvFileWriter.WriteItem()
 
-        en.Reset()
+        Next
 
-        Return res
-    End Function
+        _csvFileWriter.Flush()
+
+    End Sub
 
 End Class

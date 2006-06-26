@@ -125,7 +125,7 @@
 		<ndoc failonerror="false">
             
 			<assemblies basedir="${releasedir}">
-				<include name="CsvMapper.dll" />
+				<include name="Softwarekueche.CsvMapper.dll" />
 			</assemblies>
             
 			<summaries basedir="${root}">

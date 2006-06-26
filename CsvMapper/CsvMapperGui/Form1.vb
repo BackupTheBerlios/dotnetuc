@@ -4,18 +4,15 @@ Public Class Form1
 
     Private Sub Button1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button1.Click
 
-        Dim tst As New CsvFileReader(InputFile1.Value)
-
-        Dim il() As CsvHeaderInfo = tst.Header
-
-        For Each ail As CsvHeaderInfo In il
-            Debug.WriteLine(ail.ToString)
-        Next
-
+        ' Daten auslesen
         Dim cm As New CsvMapper(Of AttrKlasse)(InputFile1.Value)
+        Dim lst As List(Of AttrKlasse) = cm.List
 
-        Dim lst As IList = cm.List
+        ' Daten Persistieren
+        Dim pers As New CsvPersister(Of AttrKlasse)("Kopie von " & InputFile1.Value)
+        pers.Persist(lst)
 
+        ' Daten ausgeben
         For Each o As Object In lst
             Debug.WriteLine(o.ToString)
         Next

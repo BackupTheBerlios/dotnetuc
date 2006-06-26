@@ -8,7 +8,7 @@
     <ProjectGuid>{EE9C0129-A7A5-4BAA-82A7-E6BB4514A0E5}</ProjectGuid>
     <OutputType>Library</OutputType>
     <RootNamespace>Softwarekueche.CsvMapper</RootNamespace>
-    <AssemblyName>CsvMapper</AssemblyName>
+    <AssemblyName>Softwarekueche.CsvMapper</AssemblyName>
     <MyType>Windows</MyType>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -17,7 +17,7 @@
     <DefineDebug>true</DefineDebug>
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\</OutputPath>
-    <DocumentationFile>CsvMapper.xml</DocumentationFile>
+    <DocumentationFile>Softwarekueche.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
     <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
@@ -27,7 +27,7 @@
     <DefineTrace>true</DefineTrace>
     <Optimize>true</Optimize>
     <OutputPath>..\Release\</OutputPath>
-    <DocumentationFile>CsvMapper.xml</DocumentationFile>
+    <DocumentationFile>Softwarekueche.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
     <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
@@ -45,13 +45,16 @@
     <Import Include="System.Diagnostics" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CsvPersister.vb" />
     <Compile Include="CsvAttribute.vb" />
-    <Compile Include="CsvFieldInfo.vb" />
-    <Compile Include="CsvFileItem.vb" />
-    <Compile Include="CsvFileReader.vb" />
-    <Compile Include="CsvHeaderInfo.vb" />
+    <Compile Include="Internal\CsvFileWriter.vb" />
+    <Compile Include="Internal\CsvFieldInfo.vb" />
+    <Compile Include="Internal\CsvFileItem.vb" />
+    <Compile Include="Internal\CsvFileReader.vb" />
+    <Compile Include="Internal\CsvHeaderInfo.vb" />
     <Compile Include="CsvMapper.vb" />
     <Compile Include="HeaderNotFoundException.vb" />
+    <Compile Include="InvalidCsvFileException.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -77,6 +80,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Übersicht.cd" />
     <None Include="My Project\Application.myapp">
       <Generator>MyApplicationCodeGenerator</Generator>
       <LastGenOutput>Application.Designer.vb</LastGenOutput>
