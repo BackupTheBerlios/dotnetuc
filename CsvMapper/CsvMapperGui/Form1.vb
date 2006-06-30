@@ -1,4 +1,4 @@
-Imports Softwarekueche.CsvMapper
+Imports DotNetUC.CsvMapper
 
 Public Class Form1
 

@@ -1,4 +1,4 @@
-﻿Imports Softwarekueche.CsvMapper.Internal
+﻿Imports dotnetuc.CsvMapper.Internal
 
 ''' <summary>
 ''' Die Klasse CsvMapper ist die Klasse zum Anlegen von Objekten auf der Basis

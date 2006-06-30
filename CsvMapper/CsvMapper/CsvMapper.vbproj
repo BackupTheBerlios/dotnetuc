@@ -7,8 +7,8 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{EE9C0129-A7A5-4BAA-82A7-E6BB4514A0E5}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>Softwarekueche.CsvMapper</RootNamespace>
-    <AssemblyName>Softwarekueche.CsvMapper</AssemblyName>
+    <RootNamespace>DotNetUC.CsvMapper</RootNamespace>
+    <AssemblyName>DotNetUC.CsvMapper</AssemblyName>
     <MyType>Windows</MyType>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -17,7 +17,7 @@
     <DefineDebug>true</DefineDebug>
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\</OutputPath>
-    <DocumentationFile>Softwarekueche.xml</DocumentationFile>
+    <DocumentationFile>DotNetUC.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
     <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
@@ -27,7 +27,7 @@
     <DefineTrace>true</DefineTrace>
     <Optimize>true</Optimize>
     <OutputPath>..\Release\</OutputPath>
-    <DocumentationFile>Softwarekueche.xml</DocumentationFile>
+    <DocumentationFile>DotNetUC.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
     <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
