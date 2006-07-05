@@ -85,9 +85,20 @@ Namespace Internal
 
         End Sub
 
+        Private _encoding As System.Text.Encoding = New System.Text.UTF8Encoding
+
+        Public Property Encoding() As System.Text.Encoding
+            Get
+                Return _encoding
+            End Get
+            Set(ByVal value As System.Text.Encoding)
+                _encoding = value
+            End Set
+        End Property
+
         Public Sub Flush()
             ' CSV Datei öffnen
-            Dim s As New IO.StreamWriter(_fileName, False)
+            Dim s As New IO.StreamWriter(_fileName, False, _encoding)
             ' Header schreiben
             s.WriteLine(_header)
             ' Body schreiben

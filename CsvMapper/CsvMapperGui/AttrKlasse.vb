@@ -1,4 +1,4 @@
-﻿Imports Softwarekueche.CsvMapper
+﻿Imports DotNetUC.CsvMapper
 
 Public Class AttrKlasse
 
@@ -27,4 +27,5 @@ Public Class AttrKlasse
             _alter = value
         End Set
     End Property
+
 End Class

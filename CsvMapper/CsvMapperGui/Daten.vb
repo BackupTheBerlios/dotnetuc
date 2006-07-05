@@ -4,7 +4,7 @@ Public Class Daten
 
     Private _alter As Integer
 
-    <Softwarekueche.CsvMapper.CsvAttribute("Name")> _
+    <DotNetUC.CsvMapper.Csv("Name")> _
     Public Property Name() As String
         Get
             Return _name
@@ -14,7 +14,7 @@ Public Class Daten
         End Set
     End Property
 
-    <Softwarekueche.CsvMapper.CsvAttribute("Age")> _
+    <DotNetUC.CsvMapper.Csv("Age")> _
     Public Property Alter() As Integer
         Get
             Return _alter

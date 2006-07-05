@@ -6,7 +6,7 @@ Public Class Form1
 
         ' Daten auslesen
         Dim cm As New CsvMapper(Of AttrKlasse)(InputFile1.Value)
-        Dim lst As List(Of AttrKlasse) = cm.List
+        Dim lst As List(Of AttrKlasse) = cm.List()
 
         ' Daten Persistieren
         Dim pers As New CsvPersister(Of AttrKlasse)("Kopie von " & InputFile1.Value)

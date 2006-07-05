@@ -1,4 +1,4 @@
-﻿Imports Softwarekueche.CsvMapper
+﻿Imports DotNetUC.CsvMapper
 
 Public Class AttrFalsch
 
@@ -8,7 +8,7 @@ Public Class AttrFalsch
 
     Private _alter As Integer
 
-    <Softwarekueche.CsvMapper.CsvAttribute("GibbtEsNicht")> _
+    <DotNetUC.CsvMapper.Csv("GibbtEsNicht")> _
     Public Property Alter() As Integer
         Get
             Return _alter

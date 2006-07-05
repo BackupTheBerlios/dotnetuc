@@ -101,6 +101,19 @@ Public Class CsvPersister(Of keyType)
         End Get
         Set(ByVal value As String)
             _csvFileWriter = New CsvFileWriter(value)
+            _csvFileWriter.Encoding = Me._encoding
+        End Set
+    End Property
+
+    Private _encoding As System.Text.Encoding = New System.Text.UTF8Encoding
+
+    Public Property Encoding() As System.Text.Encoding
+        Get
+            Return _encoding
+        End Get
+        Set(ByVal value As System.Text.Encoding)
+            _encoding = value
+            If Not _csvFileWriter Is Nothing Then _csvFileWriter.Encoding = _encoding
         End Set
     End Property
 

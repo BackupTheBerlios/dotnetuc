@@ -127,6 +127,17 @@ Namespace Internal
             End Get
         End Property
 
+        Private _encoding As System.Text.Encoding = New System.Text.UTF8Encoding
+
+        Public Property Encoding() As System.Text.Encoding
+            Get
+                Return _encoding
+            End Get
+            Set(ByVal value As System.Text.Encoding)
+                _encoding = value
+            End Set
+        End Property
+
         ''' <summary>
         ''' DataReader für den Enumerator
         ''' </summary>

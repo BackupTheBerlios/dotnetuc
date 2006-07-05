@@ -107,7 +107,7 @@ Public Class CsvMapper(Of keyType)
     ''' <summary>
     ''' Erzeugt eine Liste von Fachobjekten und gibt diese zurück.
     ''' </summary>
-    Public Function List() As IList
+    Public Function List() As List(Of keyType)
         Dim res As New List(Of keyType)
         Dim tmp As keyType
         Dim val As Object

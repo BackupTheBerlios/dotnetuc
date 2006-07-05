@@ -1,5 +1,5 @@
 Imports NUnit.Framework
-Imports Softwarekueche.CsvMapper
+Imports DotNetUC.CsvMapper
 
 <TestFixture()> _
 Public Class NUnitTest
@@ -61,7 +61,7 @@ Public Class NUnitTest
     End Sub
 
     <Test(Description:="Erstellen von Objekten, deren Csv Column keine Column in der Csv Datei hat"), _
-     ExpectedException(GetType(Softwarekueche.CsvMapper.HeaderNotFoundException))> _
+     ExpectedException(GetType(DotNetUC.CsvMapper.HeaderNotFoundException))> _
     Public Sub FalscheKlasseHeader()
         Dim cm As New CsvMapper(Of AttrFalsch)("DatenTest.csv")
 
