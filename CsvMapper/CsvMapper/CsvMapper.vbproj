@@ -47,13 +47,13 @@
   <ItemGroup>
     <Compile Include="CsvPersister.vb" />
     <Compile Include="CsvAttribute.vb" />
-    <Compile Include="Internal\CsvFileWriter.vb" />
+    <Compile Include="Internal\CsvNativeWriter.vb" />
     <Compile Include="Internal\CsvFieldInfo.vb" />
     <Compile Include="Internal\CsvFileItem.vb" />
-    <Compile Include="Internal\CsvFileReader.vb" />
     <Compile Include="Internal\CsvHeaderInfo.vb" />
     <Compile Include="CsvMapper.vb" />
     <Compile Include="HeaderNotFoundException.vb" />
+    <Compile Include="Internal\CsvNativeReader.vb" />
     <Compile Include="InvalidCsvFileException.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">

@@ -90,7 +90,7 @@ Public Class CsvMapper(Of keyType)
 
     Private _fieldInfos As List(Of CsvFieldInfo)
 
-    Private _csvFileReader As CsvFileReader
+    Private _csvFileReader As CsvNativeReader
 
     ''' <summary>
     ''' Name der CSV Datei
@@ -100,14 +100,14 @@ Public Class CsvMapper(Of keyType)
             Return _csvFileReader.FileName
         End Get
         Set(ByVal value As String)
-            _csvFileReader = New CsvFileReader(value)
+            _csvFileReader = New CsvNativeReader(value)
         End Set
     End Property
 
     ''' <summary>
     ''' Erzeugt eine Liste von Fachobjekten und gibt diese zurück.
     ''' </summary>
-    Public Function List() As List(Of keyType)
+    Public Function List() As IList(Of keyType)
         Dim res As New List(Of keyType)
         Dim tmp As keyType
         Dim val As Object

@@ -90,7 +90,7 @@ Public Class CsvPersister(Of keyType)
 
     Private _fieldInfos As List(Of CsvFieldInfo)
 
-    Private _csvFileWriter As CsvFileWriter
+    Private _csvFileWriter As CsvNativeWriter
 
     ''' <summary>
     ''' Name der CSV Datei
@@ -100,7 +100,7 @@ Public Class CsvPersister(Of keyType)
             Return _csvFileWriter.FileName
         End Get
         Set(ByVal value As String)
-            _csvFileWriter = New CsvFileWriter(value)
+            _csvFileWriter = New CsvNativeWriter(value)
             _csvFileWriter.Encoding = Me._encoding
         End Set
     End Property
@@ -120,7 +120,7 @@ Public Class CsvPersister(Of keyType)
     ''' <summary>
     ''' Persistiert eine Liste von Fachobjekten.
     ''' </summary>
-    Public Sub Persist(ByVal list As List(Of keyType))
+    Public Sub Persist(ByVal list As IList(Of keyType))
         If _csvFileWriter Is Nothing Then Throw New InvalidCsvFileException("Keine CSV Datei angegeben")
 
         For Each cfi As CsvFieldInfo In _fieldInfos
