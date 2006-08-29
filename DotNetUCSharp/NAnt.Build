@@ -1,0 +1,199 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<project xmlns="http://nant.sf.net/release/0.85-rc3/nant.xsd"
+         name="DotNetUCSharp"
+         default="build">
+
+    <!--~~~~~~~~~~~~~~~~~
+         Konfiguration
+      ~~~~~~~~~~~~~~~~~-->
+
+    <!-- Externe Tasks laden -->
+    <!--<loadtasks assembly="Extern\NAnt.Softwarekueche.Tasks.dll" />-->
+
+    <!-- NAnt Konfiguration -->
+    <property name="nant.settings.currentframework" value="net-2.0" />
+
+    <!-- Systemkonfiguration -->
+    <property name="sysWinDir"     value="${environment::get-variable('SystemRoot')}"/>
+    <property name="sysProgDir"    value="${environment::get-variable('ProgramFiles')}"/>
+
+    <!-- Externe Tools -->
+    <property name="msbuild"
+              value="${sysWinDir}\Microsoft.NET\Framework\v2.0.50727\msbuild.exe" />
+
+    <!-- Parameter für die weitere Verwendung -->
+    <property name="root"       value="${nant.project.basedir}"/>
+    <property name="outname"    value="${nant.project.name}"/>
+    <property name="debugdir"   value="${root}\${nant.project.name}\bin\Debug"/>
+    <property name="releasedir" value="${root}\Publish"/>
+    <property name="setupdir"   value="${root}\Setup"/>
+    <property name="packagedir" value="${root}\..\Pakete"/>
+
+    <!--<property name="shortdate"  value="${softwarekueche::buildDate()}" />
+    <property name="shorttime"  value="${softwarekueche::buildTime()}" />-->
+
+    <!--~~~~~~~~~~~~~~~~~
+         Default Targets 
+      ~~~~~~~~~~~~~~~~~-->
+
+    <!-- Target für "Erstellen" -->
+    <target name="build" description="Erstellen des gesamten Projektes">
+        <call target="clean" />
+
+        <call target="msbuild" />
+        <!--<call target="doc-sdk"/>-->
+        <call target="cleanDebug" />
+
+        <!--<call target="releaseFiles" />-->
+        <call target="package" />
+        <call target="cleanRelease" />
+    </target>
+
+    <!--~~~~~~~~~~~~~
+         Sub-Targets 
+      ~~~~~~~~~~~~~-->
+
+    <target name="clean" description="Bereinigen des Solution Verzeichnisses">
+        <call target="cleanDebug" />
+        <call target="cleanRelease" />
+    </target>
+
+    <!-- Aufrufen von MSBuild zum erstellen von Debug und Release -->
+    <target name="msbuild" description="Aufrufen des MSBuild Prozesses">
+        <exec program="${msbuild}"
+              workingdir="${root}">
+            <arg value="/p:Configuration=Debug" />
+        </exec>
+
+        <exec program="${msbuild}"
+              workingdir="${root}">
+            <arg value="/p:Configuration=Release" />
+        </exec>
+
+        <exec program="${msbuild}"
+          workingdir="${root}">
+            <arg value="/p:Configuration=Publish" />
+        </exec>
+    </target>
+
+    <!-- Verschiedene Dateien veröffentlichen -->
+    <target name="releaseFiles" description="Verschiedene Dateien veröffenltichen">
+        <copy failonerror="false" file="${root}\Doc\Msdn\${outname}.chm" todir="${releasedir}" />
+        <delete file="${releasedir}\PersSOLL.exe.config" />
+        <copy   file="${root}\PersSOLL.exe.config" todir="${releasedir}" />
+    </target>
+
+    <!-- Erstellen eines Paketes mit den notwenigen Dateien -->
+    <target name="package" description="Erstellen des Paketes">
+        <mkdir dir="${packagedir}" />
+        <!--<delete file="${packagedir}\${outname}-${ccnet.label}.zip" />
+        <zip zipfile="${packagedir}\${outname}-${ccnet.label}.zip">-->
+        <delete file="${packagedir}\${outname}.zip" />
+        <zip zipfile="${packagedir}\${outname}.zip">
+
+            <fileset basedir="${releasedir}" prefix="bin">
+                <include name="*.exe" />
+                <exclude name="Tests.*" />
+                <include name="*.dll" />
+                <include name="*.config" />
+            </fileset>
+
+            <fileset basedir="${releasedir}" prefix="doc">
+                <include name="*.chm" />
+                <include name="*.doc" />
+            </fileset>
+
+            <fileset basedir="${releasedir}" prefix="out">
+                <include name="*.xml" />
+                <include name="*.log" />
+            </fileset>
+
+            <fileset basedir="${root}" prefix="src">
+                <include name="*.*" />
+
+                <include name="Extern/**/*" />
+                <!--<include name="Beispiele/**/*" />
+                <include name="Support/**/*" />-->
+
+                <include name="DotNetUC.Visualizer/**/*" />
+                <include name="DotNetUC.Tests.NUnit/**/*" />
+                <!--<include name="PersSOLL/**/*" />
+                <include name="PesoHibernate/**/*" />
+                <include name="Steuerelemente/**/*" />
+                <include name="UnitOfWork/**/*" />
+                <include name="Validation/**/*" />
+                <include name="Wizard/**/*" />
+
+                <include name="Tests.NUnit/**/*" />-->
+            </fileset>
+
+            <fileset basedir="${releasedir}">
+                <include name="*.txt" />
+            </fileset>
+
+            <fileset basedir="${releasedir}">
+                <include name="*.msi" />
+            </fileset>
+
+        </zip>
+    </target>
+
+    <!-- Bereinigen -->
+    <target name="cleanDebug" description="Reinigen der Verzeichnisse">
+        <foreach item="Folder" in="${root}" property="dirname">
+            <delete failonerror="false" dir="${dirname}\bin" />
+            <delete failonerror="false" dir="${dirname}\obj" />
+        </foreach>
+    </target>
+
+    <!-- Bereinigen -->
+    <target name="cleanRelease" description="Reinigen der Verzeichnisse">
+        <delete failonerror="false" dir="${root}\Doc" />
+        <delete failonerror="false" dir="${releasedir}" />
+    </target>
+
+    <!-- Erstellen der Programmierdokumentation -->
+    <target name="doc-sdk" description="Erstellen der SDK-Dokumentation">
+        <ndoc>
+            <assemblies basedir="${releasedir}">
+                <include name="Basisklassen.dll" />
+                <include name="Controller.dll" />
+                <include name="Fachdialoge.dll" />
+                <include name="PersSOLL.exe" />
+                <!--<include name="PesoHibernate.dll" />-->
+                <include name="Steuerelemente.dll" />
+                <include name="UnitOfWork.dll" />
+                <include name="Wizard.dll" />
+            </assemblies>
+            <summaries basedir="${root}">
+                <include name="NamespaceSummaries.xml" />
+            </summaries>
+            <documenters>
+                <documenter name="MSDN">
+                    <property name="OutputDirectory" value="${root}\Doc\Msdn" />
+                    <property name="HtmlHelpName" value="${outname}.chm" />
+                    <property name="HtmlHelpCompilerFilename" value="hhc.exe" />
+                    <property name="IncludeFavorites" value="False" />
+                    <property name="Title" value="VapAdmin - Quellcode Dokumentation" />
+                    <property name="SplitTOCs" value="False" />
+                    <property name="DefaulTOC" value="" />
+                    <property name="ShowVisualBasic" value="True" />
+                    <property name="ShowMissingSummaries" value="False" />
+                    <property name="ShowMissingRemarks" value="False" />
+                    <property name="ShowMissingParams" value="False" />
+                    <property name="ShowMissingReturns" value="False" />
+                    <property name="ShowMissingValues" value="False" />
+                    <property name="DocumentInternals" value="False" />
+                    <property name="DocumentProtected" value="False" />
+                    <property name="DocumentPrivates" value="False" />
+                    <property name="DocumentEmptyNamespaces" value="True" />
+                    <property name="IncludeAssemblyVersion" value="True" />
+                    <property name="CopyrightText" value="(c) 2006 Unilog - Avinci" />
+                    <property name="CopyrightHref" value="http://www.unilog.de" />
+                </documenter>
+            </documenters>
+        </ndoc>
+    </target>
+
+</project>
